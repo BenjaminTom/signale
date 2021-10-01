@@ -4,51 +4,51 @@
  *          Klaus Sinani <https://github.com/klaussinani>
  */
 
-import { Writable as WritableStream } from 'stream';
+import { Writable as WritableStream } from "stream";
 
 declare namespace _signale {
   export type DefaultLogger =
-    | 'await'
-    | 'complete'
-    | 'debug'
-    | 'error'
-    | 'fatal'
-    | 'fav'
-    | 'info'
-    | 'log'
-    | 'note'
-    | 'pause'
-    | 'pending'
-    | 'star'
-    | 'start'
-    | 'success'
-    | 'wait'
-    | 'warn'
-    | 'watch';
+    | "waitOn"
+    | "complete"
+    | "debug"
+    | "error"
+    | "fatal"
+    | "fav"
+    | "info"
+    | "log"
+    | "note"
+    | "pause"
+    | "pending"
+    | "star"
+    | "start"
+    | "success"
+    | "wait"
+    | "warn"
+    | "watch";
 
   export type ChalkColor =
-    | 'black'
-    | 'blue'
-    | 'blueBright'
-    | 'cyan'
-    | 'cyanBright'
-    | 'gray'
-    | 'green'
-    | 'greenBright'
-    | 'magenta'
-    | 'magentaBright'
-    | 'red'
-    | 'redBright'
-    | 'white'
-    | 'whiteBright'
-    | 'yellow'
-    | 'yellowBright';
+    | "black"
+    | "blue"
+    | "blueBright"
+    | "cyan"
+    | "cyanBright"
+    | "gray"
+    | "green"
+    | "greenBright"
+    | "magenta"
+    | "magentaBright"
+    | "red"
+    | "redBright"
+    | "white"
+    | "whiteBright"
+    | "yellow"
+    | "yellowBright";
 
   export type Secret = (string | number)[];
 
   export type LoggerFunction = (...message: any[]) => void;
 
-  export type LogLevel = 'info' | 'timer' | 'debug' | 'warn' | 'error';
+  export type LogLevel = "info" | "timer" | "debug" | "warn" | "error";
 
   export interface LoggerConfiguration {
     badge: string;

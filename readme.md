@@ -21,6 +21,10 @@
 
 ## Description
 
+This repository is an EXACT fork of [signale](https://github.com/klaussinani/signale) but the await method is changed to waitOn. Signale codebase hasn't been updated in two years so I created a fork and published it as a package because I love this package but got that sick of VSCode auto importing await every time I wanted to await a promise. I found there was no way to disable this on case by case basis. Besides that, this package does exactly what it needs to do so thanks Klaus.
+
+I updated this version to 2.0.0 because this is a breaking change.
+
 Hackable and configurable to the core, signale can be used for logging purposes, status reporting, as well as for handling the output rendering process of other node modules and applications.
 
 Read this document in: [简体中文](https://github.com/klaussinani/signale/blob/master/docs/readme.zh_CN.md).
@@ -112,14 +116,18 @@ Import signale and start using any of the default loggers.
 <br/>
 
 ```js
-const signale = require('signale');
+const signale = require("signale");
 
-signale.success('Operation successful');
-signale.debug('Hello', 'from', 'L59');
-signale.pending('Write release notes for %s', '1.2.0');
-signale.fatal(new Error('Unable to acquire lock'));
-signale.watch('Recursively watching build directory...');
-signale.complete({prefix: '[task]', message: 'Fix issue #59', suffix: '(@klauscfhq)'});
+signale.success("Operation successful");
+signale.debug("Hello", "from", "L59");
+signale.pending("Write release notes for %s", "1.2.0");
+signale.fatal(new Error("Unable to acquire lock"));
+signale.watch("Recursively watching build directory...");
+signale.complete({
+  prefix: "[task]",
+  message: "Fix issue #59",
+  suffix: "(@klauscfhq)",
+});
 ```
 
 <div align="center">
@@ -131,34 +139,34 @@ signale.complete({prefix: '[task]', message: 'Fix issue #59', suffix: '(@klauscf
 To create a custom logger define an `options` object yielding a `types` field with the logger data and pass it as argument to a new signale instance.
 
 ```js
-const {Signale} = require('signale');
+const { Signale } = require("signale");
 
 const options = {
   disabled: false,
   interactive: false,
-  logLevel: 'info',
-  scope: 'custom',
+  logLevel: "info",
+  scope: "custom",
   secrets: [],
   stream: process.stdout,
   types: {
     remind: {
-      badge: '**',
-      color: 'yellow',
-      label: 'reminder',
-      logLevel: 'info'
+      badge: "**",
+      color: "yellow",
+      label: "reminder",
+      logLevel: "info",
     },
     santa: {
-      badge: '🎅',
-      color: 'red',
-      label: 'santa',
-      logLevel: 'info'
-    }
-  }
+      badge: "🎅",
+      color: "red",
+      label: "santa",
+      logLevel: "info",
+    },
+  },
 };
 
 const custom = new Signale(options);
-custom.remind('Improve documentation.');
-custom.santa('Hoho! You have an unused variable on L45.');
+custom.remind("Improve documentation.");
+custom.santa("Hoho! You have an unused variable on L45.");
 ```
 
 <div align="center">
@@ -168,35 +176,35 @@ custom.santa('Hoho! You have an unused variable on L45.');
 Here is an example where we override the default `error` and `success` loggers.
 
 ```js
-const {Signale} = require('signale');
+const { Signale } = require("signale");
 
 const options = {
   types: {
     error: {
-      badge: '!!',
-      label: 'fatal error'
+      badge: "!!",
+      label: "fatal error",
     },
     success: {
-      badge: '++',
-      label: 'huge success'
-    }
-  }
+      badge: "++",
+      label: "huge success",
+    },
+  },
 };
 
 const signale = new Signale();
-signale.error('Default Error Log');
-signale.success('Default Success Log');
+signale.error("Default Error Log");
+signale.success("Default Success Log");
 
 const custom = new Signale(options);
-custom.error('Custom Error Log');
-custom.success('Custom Success Log');
+custom.error("Custom Error Log");
+custom.success("Custom Success Log");
 ```
 
 <div align="center">
   <img alt="Default Loggers" src="media/override-defaults.png" width="65%">
 </div>
 
-The `options` object can hold any of the following attributes: `disabled`, `interactive`, `logLevel`, `secrets`, `stream`, `scope` and `types`. 
+The `options` object can hold any of the following attributes: `disabled`, `interactive`, `logLevel`, `secrets`, `stream`, `scope` and `types`.
 
 ##### `disabled`
 
@@ -220,7 +228,7 @@ Switches all loggers belonging to the created instance into the interactive mode
 Sets the general logging level of the created instance. Can be one of the following:
 
 - `'info'` - Displays all messages from all loggers.
-- `'timer'` -  Displays messages only from the `time`, `timeEnd`, `debug`, `warn`, `error` & `fatal` loggers.
+- `'timer'` - Displays messages only from the `time`, `timeEnd`, `debug`, `warn`, `error` & `fatal` loggers.
 - `'debug'` - Displays messages only from the `debug`, `warn`, `error` & `fatal` loggers.
 - `'warn'` - Displays messages only from the `warn`, `error` & `fatal` loggers.
 - `'error'` - Displays messages only from the `error` & `fatal` loggers.
@@ -251,7 +259,7 @@ Name of the scope the logger is reporting from.
 
 Holds the configuration of the custom and default loggers.
 
-Additionally, the configuration object of each custom/default logger type, defined in the `types` option, can hold any of the following attributes: `badge`, `label`, `color`, `logLevel` & `stream`. 
+Additionally, the configuration object of each custom/default logger type, defined in the `types` option, can hold any of the following attributes: `badge`, `label`, `color`, `logLevel` & `stream`.
 
 ##### `badge`
 
@@ -290,14 +298,14 @@ Destination to which the data is written, can be a single valid [Writable stream
 To create a scoped logger from scratch, define the `scope` field inside the `options` object and pass it as argument to a new signale instance.
 
 ```js
-const {Signale} = require('signale');
+const { Signale } = require("signale");
 
 const options = {
-  scope: 'global scope'
+  scope: "global scope",
 };
 
 const global = new Signale(options);
-global.success('Successful Operation');
+global.success("Successful Operation");
 ```
 
 <div align="center">
@@ -307,18 +315,18 @@ global.success('Successful Operation');
 To create a scoped logger based on an already existing one, use the `scope()` function, which will return a new signale instance, inheriting all custom loggers, timers, secrets, streams, configuration, log level, interactive mode & disabled statuses from the initial one.
 
 ```js
-const signale = require('signale');
+const signale = require("signale");
 
-const global = signale.scope('global scope');
-global.success('Hello from the global scope');
+const global = signale.scope("global scope");
+global.success("Hello from the global scope");
 
 function foo() {
-  const outer = global.scope('outer', 'scope');
-  outer.success('Hello from the outer scope');
-  
+  const outer = global.scope("outer", "scope");
+  outer.success("Hello from the outer scope");
+
   setTimeout(() => {
-    const inner = outer.scope('inner', 'scope'); 
-    inner.success('Hello from the inner scope');
+    const inner = outer.scope("inner", "scope");
+    inner.success("Hello from the inner scope");
   }, 500);
 }
 
@@ -334,18 +342,18 @@ foo();
 To initialize an interactive logger, create a new signale instance with the [`interactive`](#interactive) attribute set to `true`. While into the interactive mode, previously logged messages originating from an interactive logger, will be overridden only by new ones originating from the same or a different interactive logger. Note that regular messages originating from regular loggers are not overridden by the interactive ones.
 
 ```js
-const {Signale} = require('signale');
+const { Signale } = require("signale");
 
-const interactive = new Signale({interactive: true, scope: 'interactive'});
+const interactive = new Signale({ interactive: true, scope: "interactive" });
 
-interactive.await('[%d/4] - Process A', 1);
+interactive.await("[%d/4] - Process A", 1);
 
 setTimeout(() => {
-  interactive.success('[%d/4] - Process A', 2);
+  interactive.success("[%d/4] - Process A", 2);
   setTimeout(() => {
-    interactive.await('[%d/4] - Process B', 3);
+    interactive.await("[%d/4] - Process B", 3);
     setTimeout(() => {
-      interactive.error('[%d/4] - Process B', 4);
+      interactive.error("[%d/4] - Process B", 4);
       setTimeout(() => {}, 1000);
     }, 1000);
   }, 1000);
@@ -361,21 +369,23 @@ setTimeout(() => {
 By default, all signale instances log their messages to the `process.stdout` stream. This can be modified, to match your own preference, through the [`stream`](#stream) property, where you can define a single or multiple valid Writable streams, which will be used by all logger types to log your data. Additionally, it is possible to define one or more Writable streams exclusively for a specific logger type, thus write data independently from the rest logger types.
 
 ```js
-const {Signale} = require('signale');
+const { Signale } = require("signale");
 
 const options = {
   stream: process.stderr, // All loggers will now write to `process.stderr`
   types: {
     error: {
       // Only `error` will write to both `process.stdout` & `process.stderr`
-      stream: [process.stdout, process.stderr]
-    }
-  }
+      stream: [process.stdout, process.stderr],
+    },
+  },
 };
 
 const signale = new Signale(options);
-signale.success('Message will appear on `process.stderr`');
-signale.error('Message will appear on both `process.stdout` & `process.stderr`');
+signale.success("Message will appear on `process.stderr`");
+signale.error(
+  "Message will appear on both `process.stdout` & `process.stderr`"
+);
 ```
 
 <div align="center">
@@ -389,23 +399,23 @@ By utilizing the `secrets` option, secrets and other sensitive information can b
 It is **critical** and **highly recommended** to **not type directly secrets in your code**, thus the following example serves **only** as a simple & easily reproducible usage demonstration.
 
 ```js
-const {Signale} = require('signale');
+const { Signale } = require("signale");
 
-// In reality secrets could be securely fetched/decrypted through a dedicated API 
-const [USERNAME, TOKEN] = ['klaussinani', 'token'];
+// In reality secrets could be securely fetched/decrypted through a dedicated API
+const [USERNAME, TOKEN] = ["klaussinani", "token"];
 
 const logger1 = new Signale({
-  secrets: [USERNAME, TOKEN]
+  secrets: [USERNAME, TOKEN],
 });
 
-logger1.log('$ exporting USERNAME=%s', USERNAME);
-logger1.log('$ exporting TOKEN=%s', TOKEN);
+logger1.log("$ exporting USERNAME=%s", USERNAME);
+logger1.log("$ exporting TOKEN=%s", TOKEN);
 
 // `logger2` inherits all secrets from its parent `logger1`
-const logger2 = logger1.scope('parent');
+const logger2 = logger1.scope("parent");
 
-logger2.log('$ exporting USERNAME=%s', USERNAME);
-logger2.log('$ exporting TOKEN=%s', TOKEN);
+logger2.log("$ exporting USERNAME=%s", USERNAME);
+logger2.log("$ exporting TOKEN=%s", TOKEN);
 ```
 
 <div align="center">
@@ -417,16 +427,16 @@ logger2.log('$ exporting TOKEN=%s', TOKEN);
 Timer are managed by the `time()` and `timeEnd()` functions. A unique label can be used to identify a timer on initialization, though if none is provided the timer will be assigned one automatically. In addition, calling the `timeEnd()` function without a specified label will have as effect the termination of the most recently initialized timer, that was created without providing a label.
 
 ```js
-const signale = require('signale');
+const signale = require("signale");
 
-signale.time('test');
+signale.time("test");
 signale.time();
 signale.time();
 
 setTimeout(() => {
   signale.timeEnd();
   signale.timeEnd();
-  signale.timeEnd('test');
+  signale.timeEnd("test");
 }, 500);
 ```
 
@@ -468,7 +478,7 @@ The following illustrates all the available options with their respective defaul
 - Type: `Boolean`
 - Default: `true`
 
-Display the scope name of the logger. 
+Display the scope name of the logger.
 
 ##### `displayBadge`
 
@@ -482,7 +492,7 @@ Display the badge of the logger.
 - Type: `Boolean`
 - Default: `false`
 
-Display the current local date in `YYYY-MM-DD` format. 
+Display the current local date in `YYYY-MM-DD` format.
 
 ##### `displayFilename`
 
@@ -550,48 +560,48 @@ In the following example, loggers in the `foo.js` file will run under their own 
 
 ```js
 // foo.js
-const signale = require('signale');
+const signale = require("signale");
 
 // Overrides any existing `package.json` config
 signale.config({
   displayFilename: true,
   displayTimestamp: true,
-  displayDate: false
-}); 
+  displayDate: false,
+});
 
-signale.success('Hello from the Global scope');
+signale.success("Hello from the Global scope");
 ```
 
 <div align="center">
   <img alt="Local Config" src="media/local-config.png" width="65%">
 </div>
 
-Also, scoped loggers can have their own independent configuration, overriding the one inherited by the parent instance or `package.json`. 
+Also, scoped loggers can have their own independent configuration, overriding the one inherited by the parent instance or `package.json`.
 
 ```js
 // foo.js
-const signale = require('signale');
+const signale = require("signale");
 
 signale.config({
   displayFilename: true,
   displayTimestamp: true,
-  displayDate: false
+  displayDate: false,
 });
 
-signale.success('Hello from the Global scope');
+signale.success("Hello from the Global scope");
 
 function foo() {
   // `fooLogger` inherits the config of `signale`
-  const fooLogger = signale.scope('foo scope');
+  const fooLogger = signale.scope("foo scope");
 
   // Overrides both `signale` and `package.json` configs
   fooLogger.config({
     displayFilename: true,
     displayTimestamp: false,
-    displayDate: true
+    displayDate: true,
   });
 
-  fooLogger.success('Hello from the Local scope');
+  fooLogger.success("Hello from the Local scope");
 }
 
 foo();
@@ -618,15 +628,15 @@ Can be any default or custom logger.
 Can be one or more comma delimited strings.
 
 ```js
-const signale = require('signale');
+const signale = require("signale");
 
-signale.success('Successful operation');
+signale.success("Successful operation");
 //=> ✔  success  Successful operation
 
-signale.success('Successful', 'operation');
+signale.success("Successful", "operation");
 //=> ✔  success  Successful operation
 
-signale.success('Successful %s', 'operation');
+signale.success("Successful %s", "operation");
 //=> ✔  success  Successful operation
 ```
 
@@ -637,9 +647,9 @@ signale.success('Successful %s', 'operation');
 Can be any error object.
 
 ```js
-const signale = require('signale');
+const signale = require("signale");
 
-signale.error(new Error('Unsuccessful operation'));
+signale.error(new Error("Unsuccessful operation"));
 //=> ✖  error  Error: Unsuccessful operation
 //        at Module._compile (module.js:660:30)
 //        at Object.Module._extensions..js (module.js:671:10)
@@ -653,12 +663,20 @@ signale.error(new Error('Unsuccessful operation'));
 Can be an object holding the `prefix`, `message` and `suffix` attributes, with `prefix` and `suffix` always prepended and appended respectively to the logged `message`.
 
 ```js
-const signale = require('signale');
+const signale = require("signale");
 
-signale.complete({prefix: '[task]', message: 'Fix issue #59', suffix: '(@klaussinani)'});
+signale.complete({
+  prefix: "[task]",
+  message: "Fix issue #59",
+  suffix: "(@klaussinani)",
+});
 //=> [task] ☒  complete  Fix issue #59 (@klaussinani)
 
-signale.complete({prefix: '[task]', message: ['Fix issue #%d', 59], suffix: '(@klaussinani)'});
+signale.complete({
+  prefix: "[task]",
+  message: ["Fix issue #%d", 59],
+  suffix: "(@klaussinani)",
+});
 //=> [task] ☒  complete  Fix issue #59 (@klaussinani)
 ```
 
@@ -673,15 +691,15 @@ Defines the scope name of the logger.
 Can be one or more comma delimited strings.
 
 ```js
-const signale = require('signale');
+const signale = require("signale");
 
-const foo = signale.scope('foo'); 
-const fooBar = signale.scope('foo', 'bar');
+const foo = signale.scope("foo");
+const fooBar = signale.scope("foo", "bar");
 
-foo.success('foo');
+foo.success("foo");
 //=> [foo] › ✔  success  foo
 
-fooBar.success('foo bar');
+fooBar.success("foo bar");
 //=> [foo] [bar] › ✔  success  foo bar
 ```
 
@@ -690,16 +708,16 @@ fooBar.success('foo bar');
 Clears the scope name of the logger.
 
 ```js
-const signale = require('signale');
+const signale = require("signale");
 
-const foo = signale.scope('foo'); 
+const foo = signale.scope("foo");
 
-foo.success('foo');
+foo.success("foo");
 //=> [foo] › ✔  success  foo
 
 foo.unscope();
 
-foo.success('foo');
+foo.success("foo");
 //=> ✔  success  foo
 ```
 
@@ -715,15 +733,15 @@ Can hold any of the documented [options](#global).
 
 ```js
 // foo.js
-const signale = require('signale');
+const signale = require("signale");
 
 signale.config({
   displayFilename: true,
   displayTimestamp: true,
-  displayDate: true
+  displayDate: true,
 });
 
-signale.success('Successful operations');
+signale.success("Successful operations");
 //=> [2018-5-15] [11:12:38] [foo.js] › ✔  success  Successful operations
 ```
 
@@ -733,7 +751,7 @@ signale.success('Successful operations');
 
 Sets a timers and accepts an optional label. If none provided the timer will receive a unique label automatically.
 
-Returns a string corresponding to the timer label. 
+Returns a string corresponding to the timer label.
 
 ##### **`label`**
 
@@ -742,7 +760,7 @@ Returns a string corresponding to the timer label.
 Label corresponding to the timer. Each timer must have its own unique label.
 
 ```js
-const signale = require('signale');
+const signale = require("signale");
 
 signale.time();
 //=> ▶  timer_0  Initialized timer...
@@ -750,7 +768,7 @@ signale.time();
 signale.time();
 //=> ▶  timer_1  Initialized timer...
 
-signale.time('label');
+signale.time("label");
 //=> ▶  label    Initialized timer...
 ```
 
@@ -769,7 +787,7 @@ Returns an object `{label, span}` holding the timer label and the total running 
 Label corresponding to the timer, each timer has its own unique label.
 
 ```js
-const signale = require('signale');
+const signale = require("signale");
 
 signale.time();
 //=> ▶  timer_0  Initialized timer...
@@ -777,7 +795,7 @@ signale.time();
 signale.time();
 //=> ▶  timer_1  Initialized timer...
 
-signale.time('label');
+signale.time("label");
 //=> ▶  label    Initialized timer...
 
 signale.timeEnd();
@@ -786,7 +804,7 @@ signale.timeEnd();
 signale.timeEnd();
 //=> ◼  timer_0  Timer run for: 2ms
 
-signale.timeEnd('label');
+signale.timeEnd("label");
 //=> ◼  label    Timer run for: 2ms
 ```
 
@@ -795,14 +813,14 @@ signale.timeEnd('label');
 Disables the logging functionality of all loggers belonging to a specific instance.
 
 ```js
-const signale = require('signale');
+const signale = require("signale");
 
-signale.success('foo');
+signale.success("foo");
 //=> ✔  success  foo
 
 signale.disable();
 
-signale.success('foo');
+signale.success("foo");
 //=>
 ```
 
@@ -811,16 +829,16 @@ signale.success('foo');
 Enables the logging functionality of all loggers belonging to a specific instance.
 
 ```js
-const signale = require('signale');
+const signale = require("signale");
 
 signale.disable();
 
-signale.success('foo');
+signale.success("foo");
 //=>
 
 signale.enable();
 
-signale.success('foo');
+signale.success("foo");
 //=> ✔  success  foo
 ```
 
@@ -829,9 +847,9 @@ signale.success('foo');
 Checks whether the logging functionality of a specific instance is enabled.
 
 ```js
-const signale = require('signale');
+const signale = require("signale");
 
-signale.success('foo');
+signale.success("foo");
 //=> ✔  success  foo
 
 signale.isEnabled();
@@ -839,7 +857,7 @@ signale.isEnabled();
 
 signale.disable();
 
-signale.success('foo');
+signale.success("foo");
 //=>
 
 signale.isEnabled();
@@ -857,14 +875,14 @@ Adds new secrets/sensitive-information to the targeted Signale instance.
 Array holding the secrets/sensitive-information to be filtered out.
 
 ```js
-const signale = require('signale');
+const signale = require("signale");
 
-signale.log('$ exporting USERNAME=%s', 'klaussinani');
+signale.log("$ exporting USERNAME=%s", "klaussinani");
 //=> $ exporting USERNAME=klaussinani
 
-signale.addSecrets(['klaussinani']);
+signale.addSecrets(["klaussinani"]);
 
-signale.log('$ exporting USERNAME=%s', 'klaussinani');
+signale.log("$ exporting USERNAME=%s", "klaussinani");
 //=> $ exporting USERNAME=[secure]
 ```
 
@@ -873,16 +891,16 @@ signale.log('$ exporting USERNAME=%s', 'klaussinani');
 Removes all secrets/sensitive-information from the targeted Signale instance.
 
 ```js
-const signale = require('signale');
+const signale = require("signale");
 
-signale.addSecrets(['klaussinani']);
+signale.addSecrets(["klaussinani"]);
 
-signale.log('$ exporting USERNAME=%s', 'klaussinani');
+signale.log("$ exporting USERNAME=%s", "klaussinani");
 //=> $ exporting USERNAME=[secure]
 
 signale.clearSecrets();
 
-signale.log('$ exporting USERNAME=%s', 'klaussinani');
+signale.log("$ exporting USERNAME=%s", "klaussinani");
 //=> $ exporting USERNAME=klaussinani
 ```
 
